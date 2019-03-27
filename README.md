@@ -2,6 +2,10 @@
 
 Making Vuex fun and easy
 
+## Installation
+
+Not available yet
+
 ## What does it do?
 
 Vuezy is a layer on top of Vuex that creates mutations for you and makes it easier to commit them.
@@ -47,7 +51,7 @@ __With Vuezy:__
 people.replaceById(person)
 ```
 
-### How does it work?
+## How does it work?
 
 Instead of configuring your store in Vuex, you do it in Vuezy. (Or a combination.)
 
