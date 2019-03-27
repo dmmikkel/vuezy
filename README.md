@@ -58,5 +58,5 @@ as well as some handy wrappers that you can use in your actions, components, plu
 These wrappers are objects that expose convienient methods for mutating the data,
 such as `add`, `replaceIndex`, `replaceWhere`, `replaceById`, `replaceOrAddById`, and many more.
 
-All mutation happens through the Vuex mutations,
-which means you don't lose any benefits of the vue-devtools integration with Vuex.
+All state mutation happen through Vuex commits,
+so you don't lose any benefits of the devtool integration with Vuex.
