@@ -72,6 +72,11 @@ Setting up Vuezy is easy. See the examples below.
 ### Simple store
 
 ```javascript
+// store.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+import Vuezy from 'vuezy'
+
 Vue.use(Vuex)
 
 const vuezy = new Vuezy({
@@ -89,8 +94,35 @@ const store = new Vuex.Store({
 vuezy.bind(store)
 
 export default {
+  ...vuezy.getWrappers(),
+  store
+}
+
+// in main.js
+import { store } from './store'
+
+new Vue({
+  router,
   store,
-  ...vuezy.getWrappers()
+  render: h => h(App)
+}).$mount('#app')
+
+// in components
+import { firstFlag, secondFlag } from '@/store'
+
+export default {
+  name: 'MyComponent',
+  
+  methods: {
+    toggleBoth () {
+      firstFlag.toggle()
+      secondFlag.toggle()
+    },
+    setBothTrue () {
+      firstFlag.set(true)
+      secondFlag.set(true)
+    }
+  }
 }
 ```
 
