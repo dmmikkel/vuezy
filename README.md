@@ -64,3 +64,35 @@ such as `add`, `replaceIndex`, `replaceWhere`, `replaceById`, `replaceOrAddById`
 
 All state mutation happen through Vuex commits,
 so you don't lose any benefits of the devtool integration with Vuex.
+
+## Getting started
+
+Setting up Vuezy is easy. See this example of a store.js
+
+```javascript
+Vue.use(Vuex)
+
+const vuezy = new Vuezy({
+  state: {
+    firstFlag: { type: 'Bool', default: true },
+    secondFlag: 'Bool',
+  }
+})
+
+const store = new Vuex.Store({
+  state: vuezy.createState(),
+  mutations: vuezy.createMutations(),
+})
+
+vuezy.bind(store)
+
+export default {
+  store,
+  ...vuezy.getWrappers()
+}
+```
+
+The example above uses only state and mutations.
+Below you can see a more advanced example inlucding actions and getters:
+
+TODO
