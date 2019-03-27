@@ -1,6 +1,6 @@
 {
   "name": "vuezy",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Makes vuex setup easier",
   "main": "dist/vuezy.common.js",
   "module": "dist/vuezy.esm.js",
