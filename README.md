@@ -8,7 +8,7 @@ Vuezy is a layer on top of Vuex that creates mutations for you and makes it easi
 
 Before:
 
-```
+```javascript
 const state = {
   people: []
 }
@@ -26,7 +26,7 @@ const mutations = {
 
 With Vuezy:
 
-```
+```javascript
 const state = {
   people: 'ObjectList'
 }
@@ -36,13 +36,13 @@ Vuezt also makes mutating the store easier.
 
 Before:
 
-```
+```javascript
 const index = this.people.findIndex(x => x.id === person.id)
 this.$store.commit('replaceInPeople', { index, person })
 ```
 
 With Vuezy:
 
-```
+```javascript
 people.replaceById(person)
 ```
