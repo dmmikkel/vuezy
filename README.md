@@ -67,7 +67,9 @@ so you don't lose any benefits of the devtool integration with Vuex.
 
 ## Getting started
 
-Setting up Vuezy is easy. See this example of a store.js
+Setting up Vuezy is easy. See the examples below.
+
+### Simple store
 
 ```javascript
 Vue.use(Vuex)
@@ -92,7 +94,10 @@ export default {
 }
 ```
 
-The example above uses only state and mutations.
-Below you can see a more advanced example inlucding actions and getters:
+### Using actions and getters
+
+TODO
+
+### Using modules
 
 TODO
