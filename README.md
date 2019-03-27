@@ -4,7 +4,7 @@ Making Vuex fun and easy
 
 ## Installation
 
-Not available yet
+`npm i --save vuezy`
 
 ## What does it do?
 
