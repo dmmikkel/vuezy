@@ -10,6 +10,11 @@
   },
   "author": "Dag Mikkelsen <dag.mikkelsen@frontra.no>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmmikkel/vuezy.git"
+  },
+  "homepage": "https://github.com/dmmikkel/vuezy#readme",
   "devDependencies": {
     "rollup": "^1.7.3",
     "rollup-plugin-buble": "^0.19.6"
