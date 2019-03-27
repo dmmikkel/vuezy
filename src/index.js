@@ -1,9 +1,22 @@
 import types from './types'
 import { mergeObjects } from './helpers'
 
+function normalizeStateConfig (stateConfig) {
+  const newConfig = {}
+  for (const key in stateConfig) {
+    const propConfig = stateConfig[key]
+    if (typeof propConfig === 'string') {
+      newConfig[key] = { type: propConfig }
+    } else {
+      newConfig[key] = propConfig
+    }
+  }
+  return newConfig
+}
+
 export default class Vuezy {
   constructor ({ state, actions }) {
-    this.state = state
+    this.state = normalizeStateConfig(state)
     this.actions = actions
     this.store = null
     this.namespace = null
