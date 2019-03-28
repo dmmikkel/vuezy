@@ -48,7 +48,7 @@ this.$store.commit('replaceInPeople', { index, person })
 __With Vuezy:__
 
 ```javascript
-people.replaceById(person)
+this.$w.people.replaceById(person)
 ```
 
 ## How does it work?
@@ -175,3 +175,9 @@ export default {
   store,
 }
 ```
+
+Namespacing wrappers in the export is optional, regardless of Vuex namespacing.
+You can create any structure you want on the wrappers object.
+
+If you want to use modules without namespacing,
+make sure you don't send in the namespace property in `.bind(store)`.
