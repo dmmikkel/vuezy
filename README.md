@@ -87,27 +87,29 @@ const vuezy = new Vuezy({
   }
 })
 
-const store = new Vuex.Store({
+const vueStore = new Vuex.Store({
   state: vuezy.createState(),
   mutations: vuezy.createMutations(),
 })
 
-vuezy.bind(store)
+vuezy.bind(vueStore)
+
+const wrappers = vuezy.getWrappers()
 
 export default {
-  ...vuezy.getWrappers(),
-  store
+  ...wrappers,
+  vueStore
 }
 ```
 
 #### in main.js
 
 ```javascript
-import { store } from './store'
+import store from './store'
 
 new Vue({
   router,
-  store,
+  store: store.vueStore,
   render: h => h(App)
 }).$mount('#app')
 ```
@@ -115,19 +117,19 @@ new Vue({
 #### in components
 
 ```javascript
-import { firstFlag, secondFlag } from '@/store'
+import store from '@/store'
 
 export default {
   name: 'MyComponent',
   
   methods: {
     toggleBoth () {
-      firstFlag.toggle()
-      secondFlag.toggle()
+      store.firstFlag.toggle()
+      store.secondFlag.toggle()
     },
     setBothTrue () {
-      firstFlag.set(true)
-      secondFlag.set(true)
+      store.firstFlag.set(true)
+      store.secondFlag.set(true)
     }
   }
 }
@@ -139,4 +141,36 @@ TODO
 
 ### Using modules
 
-TODO
+```javascript
+import Vue from 'vue'
+import Vuex from 'vuex'
+import Vuezy from 'vuezy'
+
+Vue.use(Vuex)
+
+const vuezyA = new Vuezy({
+  state: {
+    flagOne: 'Bool',
+    flagTwo: 'Bool',
+  }
+})
+
+const moduleA = {
+  namespaced: true,
+  state: vuezyA.createState(),
+  mutations: vuezyA.createMutations(),
+}
+
+const store = new Vuex.Store({
+  modules: {
+    a: moduleA
+  }
+})
+
+vuezyA.bind(store, 'a')
+
+export default {
+  a: vuezyA.getWrappers(),
+  store,
+}
+```
