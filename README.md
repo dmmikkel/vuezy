@@ -194,13 +194,8 @@ are created and which wrapper methods are available.
 
 A simple boolean type.
 
-<dl>
-  <dt>Javascript type</dt>
-  <dd>Boolean</dd>
-
-  <dt>Default value</dt>
-  <dd>false</dd>
-</dl>
+Javascript type: Boolean  
+Default value: false
 
 #### .set(value)
 
@@ -214,13 +209,8 @@ Toggles the value between `true` and `false`.
 
 A list of objects.
 
-<dl>
-  <dt>Javascript type</dt>
-  <dd>Array</dd>
-
-  <dt>Default value</dt>
-  <dd>[]</dd>
-</dl>
+Javascript type: Array  
+Default value: []
 
 #### .set(value)
 
