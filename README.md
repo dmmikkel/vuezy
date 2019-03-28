@@ -212,6 +212,11 @@ A list of objects.
 Javascript type: Array  
 Default value: []
 
+#### .getById(id [, prop])
+
+Gets the first record where property prop matches the value of id.
+The default value of prop is 'id'.
+
 #### .set(value)
 
 Replace the entire list with a new javascript array.
