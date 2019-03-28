@@ -126,6 +126,69 @@ ObjectList.createMutations = function createMutations (m, p) {
   };
 };
 
+var Bool$1 = function Bool(vuexify, prop) {
+  this.vuexify = vuexify;
+  this.prop = prop;
+};
+
+Bool$1.prototype.get = function get () {
+  return this.vuexify.get(this.prop)
+};
+
+Bool$1.prototype.set = function set (v) {
+  if (typeof v !== 'object') {
+    throw new Error('Value must be of type object')
+  }
+  this.vuexify.commit(createMutationName('set', this.prop), v);
+};
+
+Bool$1.prototype.getKey = function getKey (key) {
+  return this.vuexify.get(this.prop)[key]
+};
+
+Bool$1.prototype.add = function add (key, value) {
+  console.log('add', key, value);
+  this.vuexify.commit(createMutationName('addTo', this.prop), { key: key, value: value });
+};
+
+Bool$1.prototype.clear = function clear () {
+  this.vuexify.commit(createMutationName('clear', this.prop));
+};
+
+Bool$1.prototype.containsKey = function containsKey (key) {
+  var value = this.getKey(key);
+  if (typeof value !== 'undefined') {
+    return true
+  }
+  return false
+};
+
+Bool$1.prototype.remove = function remove (key) {
+  this.vuexify.commit(createMutationName('remove', this.prop), key);
+};
+
+Bool$1.defaultValue = function defaultValue (d) {
+  if (typeof d === 'undefined') {
+    return {}
+  }
+  if (typeof d !== 'object') {
+    throw new Error('Default value must be of type boolean')
+  }
+  return d
+};
+
+Bool$1.createMutations = function createMutations (m, p, Vue) {
+  m[createMutationName('set', p)] = function (s, v) { return s[p] = v; };
+  m[createMutationName('addTo', p)] = function (s, ref) {
+      var key = ref.key;
+      var value = ref.value;
+
+      return Vue.set(s[p], key, value);
+    };
+  m[createMutationName('remove', p)] = function (s, key) { return Vue.delete(s[p], key); };
+  m[createMutationName('clear', p)] = function (s) { return s[p] = {}; };
+};
+
 var types = {
   Bool: Bool,
   bool: Bool,
@@ -134,6 +197,9 @@ var types = {
 
   ObjectList: ObjectList,
   objectlist: ObjectList,
+
+  Dictionary: Bool$1,
+  dictionary: Bool$1
 };
 
 function normalizeStateConfig (stateConfig) {
@@ -149,6 +215,8 @@ function normalizeStateConfig (stateConfig) {
   return newConfig
 }
 
+var _Vue = null;
+
 var Vuezy = function Vuezy (ref) {
   var state = ref.state;
   var actions = ref.actions;
@@ -161,6 +229,7 @@ var Vuezy = function Vuezy (ref) {
 };
 
 Vuezy.install = function install (Vue) {
+  _Vue = Vue;
   Vue.mixin({
     beforeCreate: function beforeCreate () {
       if (this.$options.wrappers) {
@@ -219,7 +288,7 @@ Vuezy.prototype.createMutations = function createMutations () {
   var mutations = {};
   for (var prop in this.state) {
     var def = this.state[prop];
-    types[def.type].createMutations(mutations, prop);
+    types[def.type].createMutations(mutations, prop, _Vue);
   }
   return mutations
 };

@@ -14,6 +14,8 @@ function normalizeStateConfig (stateConfig) {
   return newConfig
 }
 
+let _Vue = null
+
 export default class Vuezy {
   constructor ({ state, actions }) {
     this.state = normalizeStateConfig(state)
@@ -24,6 +26,7 @@ export default class Vuezy {
   }
 
   static install (Vue) {
+    _Vue = Vue
     Vue.mixin({
       beforeCreate () {
         if (this.$options.wrappers) {
@@ -82,7 +85,7 @@ export default class Vuezy {
     const mutations = {}
     for (const prop in this.state) {
       const def = this.state[prop]
-      types[def.type].createMutations(mutations, prop)
+      types[def.type].createMutations(mutations, prop, _Vue)
     }
     return mutations
   }

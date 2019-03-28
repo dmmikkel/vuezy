@@ -214,7 +214,7 @@ Default value: []
 
 #### .set(value)
 
-Replace the entire array.
+Replace the entire list with a new javascript array.
 
 #### .add(item)
 
@@ -237,3 +237,30 @@ matches that of the new item. Default property is 'id'.
 
 Same as replaceById, except that it will add the new item to the end of
 the list if no match is found.
+
+### Dictionary
+
+A dictionary of key-value pairs.
+
+Javascript type: Object  
+Default value: {}
+
+#### .set(value)
+
+Replace the entire dictionary with a new javascript object.
+
+#### .getKey(key)
+
+Returns the value of the given key.
+
+#### .containsKey(key)
+
+Returns true if the key exists in the dictionary, otherwise returns false.
+
+#### .add(key, value)
+
+Adds a new key-value pair to the dictionary. If the key already exists, its value is replaced.
+
+#### .clear()
+
+Removes all key-value pairs in the dictionary
