@@ -212,6 +212,10 @@ A list of objects.
 Javascript type: Array  
 Default value: []
 
+#### .get()
+
+Return the list as an array
+
 #### .getById(id [, prop])
 
 Gets the first record where property prop matches the value of id.
