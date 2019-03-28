@@ -160,6 +160,18 @@ var Vuezy = function Vuezy (ref) {
   this.wrappers = {};
 };
 
+Vuezy.install = function install (Vue) {
+  Vue.mixin({
+    beforeCreate: function beforeCreate () {
+      if (this.$options.wrappers) {
+        this.$w = this.$options.wrappers;
+      } else if (this.$options.parent && this.$options.parent.$w) {
+        this.$w = this.$options.parent.$w;
+      }
+    }
+  });
+};
+
 Vuezy.prototype.getWrappers = function getWrappers () {
   return this.wrappers
 };

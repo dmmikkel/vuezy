@@ -71,7 +71,7 @@ Setting up Vuezy is easy. See the examples below.
 
 ### Simple store
 
-#### store.js
+#### store-config.js
 
 ```javascript
 import Vue from 'vue'
@@ -79,6 +79,7 @@ import Vuex from 'vuex'
 import Vuezy from 'vuezy'
 
 Vue.use(Vuex)
+Vue.use(Vuezy)
 
 const vuezy = new Vuezy({
   state: {
@@ -87,29 +88,28 @@ const vuezy = new Vuezy({
   }
 })
 
-const vueStore = new Vuex.Store({
+const store = new Vuex.Store({
   state: vuezy.createState(),
   mutations: vuezy.createMutations(),
 })
 
-vuezy.bind(vueStore)
+vuezy.bind(store)
 
 const wrappers = vuezy.getWrappers()
 
 export default {
-  ...wrappers,
-  vueStore
+  wrappers,
+  store
 }
 ```
 
 #### in main.js
 
 ```javascript
-import store from './store'
+import storeConfig from './store-config'
 
 new Vue({
-  router,
-  store: store.vueStore,
+  ...storeConfig,
   render: h => h(App)
 }).$mount('#app')
 ```
@@ -117,19 +117,17 @@ new Vue({
 #### in components
 
 ```javascript
-import store from '@/store'
-
 export default {
   name: 'MyComponent',
   
   methods: {
     toggleBoth () {
-      store.firstFlag.toggle()
-      store.secondFlag.toggle()
+      this.$w.firstFlag.toggle()
+      this.$w.secondFlag.toggle()
     },
     setBothTrue () {
-      store.firstFlag.set(true)
-      store.secondFlag.set(true)
+      this.$w.firstFlag.set(true)
+      this.$w.secondFlag.set(true)
     }
   }
 }
@@ -147,6 +145,7 @@ import Vuex from 'vuex'
 import Vuezy from 'vuezy'
 
 Vue.use(Vuex)
+Vue.use(Vuezy)
 
 const vuezyA = new Vuezy({
   state: {
@@ -170,7 +169,9 @@ const store = new Vuex.Store({
 vuezyA.bind(store, 'a')
 
 export default {
-  a: vuezyA.getWrappers(),
+  wrappers: {
+    a: vuezyA.getWrappers()
+  },
   store,
 }
 ```

@@ -23,6 +23,18 @@ export default class Vuezy {
     this.wrappers = {}
   }
 
+  static install (Vue) {
+    Vue.mixin({
+      beforeCreate () {
+        if (this.$options.wrappers) {
+          this.$w = this.$options.wrappers
+        } else if (this.$options.parent && this.$options.parent.$w) {
+          this.$w = this.$options.parent.$w
+        }
+      }
+    })
+  }
+
   getWrappers () {
     return this.wrappers
   }
