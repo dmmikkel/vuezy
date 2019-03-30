@@ -93,7 +93,7 @@ ObjectList.prototype.replaceById = function replaceById (newItem, prop) {
   this.vuexify.commit(createMutationName('replaceIn', this.prop), { index: index, newItem: newItem });
 };
 
-ObjectList.prototype.replaceOrAddById = function replaceOrAddById (newItem, prop) {
+ObjectList.prototype.addOrReplaceById = function addOrReplaceById (newItem, prop) {
     if ( prop === void 0 ) prop = 'id';
 
   var list = this.get();

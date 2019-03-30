@@ -46,7 +46,7 @@ export default class ObjectList {
     return this.vuexify.get(this.prop).find(x => x[prop] === id)
   }
 
-  replaceOrAddById (newItem, prop = 'id') {
+  addOrReplaceById (newItem, prop = 'id') {
     const list = this.get()
     const index = list.findIndex(x => x[prop] === newItem[prop])
     if (index > -1) {
