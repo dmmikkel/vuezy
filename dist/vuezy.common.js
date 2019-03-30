@@ -93,16 +93,26 @@ ObjectList.prototype.replaceById = function replaceById (newItem, prop) {
   this.vuexify.commit(createMutationName('replaceIn', this.prop), { index: index, newItem: newItem });
 };
 
-ObjectList.prototype.addOrReplaceById = function addOrReplaceById (newItem, prop) {
+ObjectList.prototype.getById = function getById (id, prop) {
     if ( prop === void 0 ) prop = 'id';
 
-  var list = this.get();
-  var index = list.findIndex(function (x) { return x[prop] === newItem[prop]; });
-  if (index > -1) {
-    this.vuexify.commit(createMutationName('replaceIn', this.prop), { index: index, newItem: newItem });
-  } else {
-    this.vuexify.commit(createMutationName('addItemTo', this.prop), newItem);
-  }
+  return this.vuexify.get(this.prop).find(function (x) { return x[prop] === id; })
+};
+
+ObjectList.prototype.addOrReplaceById = function addOrReplaceById (newItem, prop) {
+    var this$1 = this;
+    if ( prop === void 0 ) prop = 'id';
+
+  var items = Array.isArray(newItem) ? newItem : [newItem];
+  items.forEach(function (item) {
+    var list = this$1.get();
+    var index = list.findIndex(function (x) { return x[prop] === item[prop]; });
+    if (index > -1) {
+      this$1.vuexify.commit(createMutationName('replaceIn', this$1.prop), { index: index, item: item });
+    } else {
+      this$1.vuexify.commit(createMutationName('addItemTo', this$1.prop), item);
+    }
+  });
 };
 
 ObjectList.defaultValue = function defaultValue (d) {
@@ -147,8 +157,11 @@ Bool$1.prototype.getKey = function getKey (key) {
 };
 
 Bool$1.prototype.add = function add (key, value) {
-  console.log('add', key, value);
   this.vuexify.commit(createMutationName('addTo', this.prop), { key: key, value: value });
+};
+
+Bool$1.prototype.setKeysToValue = function setKeysToValue (keys, value) {
+  this.vuexify.commit(createMutationName('setKeysToValue', this.prop), { keys: keys, value: value });
 };
 
 Bool$1.prototype.clear = function clear () {
@@ -185,6 +198,12 @@ Bool$1.createMutations = function createMutations (m, p, Vue) {
 
       return Vue.set(s[p], key, value);
     };
+  m[createMutationName('setKeysToValue', p)] = function (s, ref) {
+      var keys = ref.keys;
+      var value = ref.value;
+
+    keys.forEach(function (k) { return Vue.set(s[p], k, value); });
+  };
   m[createMutationName('remove', p)] = function (s, key) { return Vue.delete(s[p], key); };
   m[createMutationName('clear', p)] = function (s) { return s[p] = {}; };
 };

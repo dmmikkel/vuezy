@@ -247,6 +247,13 @@ matches that of the new item. Default property is 'id'.
 Same as replaceById, except that it will add the new item to the end of
 the list if no match is found.
 
+If item parameter is an array, it will be iterated and each object inside
+it added separately to the list.
+
+#### .deleteById (id [, prop])
+
+Delete the first record where property prop matches id
+
 ### Dictionary
 
 A dictionary of key-value pairs.
@@ -269,6 +276,10 @@ Returns true if the key exists in the dictionary, otherwise returns false.
 #### .add(key, value)
 
 Adds a new key-value pair to the dictionary. If the key already exists, its value is replaced.
+
+#### .setKeysToValue(keys, value)
+
+Set multiple keys to the same value. Keys parameter must be an array of keys.
 
 #### .clear()
 
