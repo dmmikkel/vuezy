@@ -97,6 +97,13 @@ ObjectList.prototype.getById = function getById (id, prop) {
   return this.vuexify.get(this.prop).find(function (x) { return x[prop] === id; })
 };
 
+ObjectList.prototype.deleteById = function deleteById (id, prop) {
+    if ( prop === void 0 ) prop = 'id';
+
+  var index = this.vuexify.get(this.prop).findIndex(function (x) { return x[prop] === id; });
+  this.vuexify.commit(createMutationName('deleteFrom', this.prop), index);
+};
+
 ObjectList.prototype.addOrReplaceById = function addOrReplaceById (newItem, prop) {
     var this$1 = this;
     if ( prop === void 0 ) prop = 'id';
@@ -131,6 +138,9 @@ ObjectList.createMutations = function createMutations (m, p) {
       var newItem = ref.newItem;
 
     s[p].splice(index, 1, newItem);
+  };
+  m[createMutationName('deleteFrom', p)] = function (s, index) {
+    s[p].splice(index, 1);
   };
 };
 
