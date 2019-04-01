@@ -24,8 +24,11 @@ export default class Bool {
   }
 
   add(key, value) {
-    console.log('add', key, value)
     this.vuexify.commit(createMutationName('addTo', this.prop), { key, value })
+  }
+
+  setKeysToValue(keys, value) {
+    this.vuexify.commit(createMutationName('setKeysToValue', this.prop), { keys, value })
   }
 
   clear() {
@@ -57,6 +60,9 @@ export default class Bool {
   static createMutations(m, p, Vue) {
     m[createMutationName('set', p)] = (s, v) => s[p] = v
     m[createMutationName('addTo', p)] = (s, { key, value }) => Vue.set(s[p], key, value)
+    m[createMutationName('setKeysToValue', p)] = (s, { keys, value }) => {
+      keys.forEach(k => Vue.set(s[p], k, value))
+    }
     m[createMutationName('remove', p)] = (s, key) => Vue.delete(s[p], key)
     m[createMutationName('clear', p)] = (s) => s[p] = {}
   }

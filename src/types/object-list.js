@@ -46,14 +46,22 @@ export default class ObjectList {
     return this.vuexify.get(this.prop).find(x => x[prop] === id)
   }
 
-  replaceOrAddById (newItem, prop = 'id') {
-    const list = this.get()
-    const index = list.findIndex(x => x[prop] === newItem[prop])
-    if (index > -1) {
-      this.vuexify.commit(createMutationName('replaceIn', this.prop), { index, newItem })
-    } else {
-      this.vuexify.commit(createMutationName('addItemTo', this.prop), newItem)
-    }
+  deleteById (id, prop = 'id') {
+    const index = this.vuexify.get(this.prop).findIndex(x => x[prop] === id)
+    this.vuexify.commit(createMutationName('deleteFrom', this.prop), index)
+  }
+
+  addOrReplaceById (newItem, prop = 'id') {
+    const items = Array.isArray(newItem) ? newItem : [newItem]
+    items.forEach(item => {
+      const list = this.get()
+      const index = list.findIndex(x => x[prop] === item[prop])
+      if (index > -1) {
+        this.vuexify.commit(createMutationName('replaceIn', this.prop), { index, item })
+      } else {
+        this.vuexify.commit(createMutationName('addItemTo', this.prop), item)
+      }
+    })
   }
 
   static defaultValue (d) {
@@ -71,6 +79,9 @@ export default class ObjectList {
     m[createMutationName('addItemTo', p)] = (s, v) => s[p].push(v)
     m[createMutationName('replaceIn', p)] = (s, { index, newItem }) => {
       s[p].splice(index, 1, newItem)
+    }
+    m[createMutationName('deleteFrom', p)] = (s, index) => {
+      s[p].splice(index, 1)
     }
   }
 }

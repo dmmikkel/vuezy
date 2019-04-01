@@ -60,7 +60,7 @@ then Vuezy creates the needed mutations in Vuex,
 as well as some handy wrappers that you can use in your actions, components, plugins, etc..
 
 These wrappers are objects that expose convienient methods for mutating the data,
-such as `add`, `replaceIndex`, `replaceWhere`, `replaceById`, `replaceOrAddById`, and many more.
+such as `add`, `replaceIndex`, `replaceWhere`, `replaceById`, `addOrReplaceById`, and many more.
 
 All state mutation happen through Vuex commits,
 so you don't lose any benefits of the devtool integration with Vuex.
@@ -242,10 +242,17 @@ Replaces the first item in the list matching the function in predicate.
 Replaces the first item in the list where the value of property 'prop'
 matches that of the new item. Default property is 'id'.
 
-#### .replaceOrAddById(item [, prop])
+#### .addOrReplaceById(item [, prop])
 
 Same as replaceById, except that it will add the new item to the end of
 the list if no match is found.
+
+If item parameter is an array, it will be iterated and each object inside
+it added separately to the list.
+
+#### .deleteById (id [, prop])
+
+Delete the first record where property prop matches id
 
 ### Dictionary
 
@@ -269,6 +276,10 @@ Returns true if the key exists in the dictionary, otherwise returns false.
 #### .add(key, value)
 
 Adds a new key-value pair to the dictionary. If the key already exists, its value is replaced.
+
+#### .setKeysToValue(keys, value)
+
+Set multiple keys to the same value. Keys parameter must be an array of keys.
 
 #### .clear()
 
