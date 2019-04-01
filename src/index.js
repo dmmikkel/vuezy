@@ -62,6 +62,8 @@ export default class Vuezy {
       const def = this.state[prop]
       this.wrappers[prop] = new types[def.type](this, prop)
     }
+
+    return this.getWrappers()
   }
 
   commit (c, v) {
@@ -69,6 +71,14 @@ export default class Vuezy {
       this.store.commit(this.namespace + '/' + c, v)
     } else {
       this.store.commit(c, v)
+    }
+  }
+
+  createStore () {
+    return {
+      state: this.createState(),
+      mutations: this.createMutations(),
+      actions: this.createActions()
     }
   }
 
