@@ -111,11 +111,11 @@ ObjectList.prototype.addOrReplaceById = function addOrReplaceById (newItem, prop
     if ( prop === void 0 ) prop = 'id';
 
   var items = Array.isArray(newItem) ? newItem : [newItem];
+  var list = this.get();
   items.forEach(function (item) {
-    var list = this$1.get();
     var index = list.findIndex(function (x) { return x[prop] === item[prop]; });
     if (index > -1) {
-      this$1.vuexify.commit(createMutationName('replaceIn', this$1.prop), { index: index, item: item });
+      this$1.vuexify.commit(createMutationName('replaceIn', this$1.prop), { index: index, newItem: item });
     } else {
       this$1.vuexify.commit(createMutationName('addItemTo', this$1.prop), item);
     }
@@ -294,6 +294,8 @@ Vuezy.prototype.bind = function bind (store, namespace) {
     var def = this.state[prop];
     this.wrappers[prop] = new types[def.type](this, prop);
   }
+
+  return this.getWrappers()
 };
 
 Vuezy.prototype.commit = function commit (c, v) {
@@ -301,6 +303,14 @@ Vuezy.prototype.commit = function commit (c, v) {
     this.store.commit(this.namespace + '/' + c, v);
   } else {
     this.store.commit(c, v);
+  }
+};
+
+Vuezy.prototype.createStore = function createStore () {
+  return {
+    state: this.createState(),
+    mutations: this.createMutations(),
+    actions: this.createActions()
   }
 };
 
