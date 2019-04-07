@@ -53,11 +53,11 @@ export default class ObjectList {
 
   addOrReplaceById (newItem, prop = 'id') {
     const items = Array.isArray(newItem) ? newItem : [newItem]
+    const list = this.get()
     items.forEach(item => {
-      const list = this.get()
       const index = list.findIndex(x => x[prop] === item[prop])
       if (index > -1) {
-        this.vuexify.commit(createMutationName('replaceIn', this.prop), { index, item })
+        this.vuexify.commit(createMutationName('replaceIn', this.prop), { index, newItem: item })
       } else {
         this.vuexify.commit(createMutationName('addItemTo', this.prop), item)
       }
