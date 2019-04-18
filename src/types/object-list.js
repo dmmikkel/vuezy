@@ -1,37 +1,43 @@
 import { createMutationName } from '../helpers'
 
 export default class ObjectList {
-  constructor (vuexify, prop) {
-    this.vuexify = vuexify
+  constructor (vuezy, prop) {
+    this.vuezy = vuezy
     this.prop = prop
   }
 
   get () {
-    return this.vuexify.get(this.prop)
+    return this.vuezy.get(this.prop)
   }
 
   set (v) {
     if (!Array.isArray(v)) {
       throw new Error('Value must be an array')
     }
-    this.vuexify.commit(createMutationName('set', this.prop), v)
+    this.vuezy.commit(createMutationName('set', this.prop), v)
   }
   
   add (item) {
-    this.vuexify.commit(createMutationName('addItemTo', this.prop), item)
+    this.vuezy.commit(createMutationName('addItemTo', this.prop), item)
   }
 
   replaceIndex (newItem, index) {
-    this.vuexify.commit(createMutationName('replaceIn', this.prop), { index, newItem })
+    this.vuezy.commit(createMutationName('replaceIn', this.prop), { index, newItem })
   }
 
   replaceWhere (newItem, predicate) {
     const list = this.get()
     const index = list.findIndex(predicate)
     if (index > -1) {
-      this.vuexify.commit(createMutationName('replaceIn', this.prop), { index, newItem })
+      this.vuezy.commit(createMutationName('replaceIn', this.prop), { index, newItem })
     }
   }
+
+  deleteAllWhere (predicate) {
+    const list = this.get()
+    const newList = list.filter(item => !predicate(item))
+    this.vuezy.commit(createMutationName('set', this.prop), newList)
+  } // TODO: Add to documentation and release
 
   replaceById (newItem, prop = 'id') {
     const list = this.get()
@@ -39,16 +45,16 @@ export default class ObjectList {
     if (index === -1) {
       throw new Error('Could not find item with matching id')
     }
-    this.vuexify.commit(createMutationName('replaceIn', this.prop), { index, newItem })
+    this.vuezy.commit(createMutationName('replaceIn', this.prop), { index, newItem })
   }
 
   getById (id, prop = 'id') {
-    return this.vuexify.get(this.prop).find(x => x[prop] === id)
+    return this.vuezy.get(this.prop).find(x => x[prop] === id)
   }
 
   deleteById (id, prop = 'id') {
-    const index = this.vuexify.get(this.prop).findIndex(x => x[prop] === id)
-    this.vuexify.commit(createMutationName('deleteFrom', this.prop), index)
+    const index = this.vuezy.get(this.prop).findIndex(x => x[prop] === id)
+    this.vuezy.commit(createMutationName('deleteFrom', this.prop), index)
   }
 
   addOrReplaceById (newItem, prop = 'id') {
@@ -57,9 +63,9 @@ export default class ObjectList {
     items.forEach(item => {
       const index = list.findIndex(x => x[prop] === item[prop])
       if (index > -1) {
-        this.vuexify.commit(createMutationName('replaceIn', this.prop), { index, newItem: item })
+        this.vuezy.commit(createMutationName('replaceIn', this.prop), { index, newItem: item })
       } else {
-        this.vuexify.commit(createMutationName('addItemTo', this.prop), item)
+        this.vuezy.commit(createMutationName('addItemTo', this.prop), item)
       }
     })
   }

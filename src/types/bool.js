@@ -1,24 +1,24 @@
 import { createMutationName } from '../helpers'
 
 export default class Bool {
-  constructor (vuexify, prop) {
-    this.vuexify = vuexify
+  constructor (vuezy, prop) {
+    this.vuezy = vuezy
     this.prop = prop
   }
 
   get () {
-    return this.vuexify.get(this.prop)
+    return this.vuezy.get(this.prop)
   }
 
   set (v) {
     if (typeof v !== 'boolean') {
       throw new Error('Value must be of type boolean')
     }
-    this.vuexify.commit(createMutationName('set', this.prop), v)
+    this.vuezy.commit(createMutationName('set', this.prop), v)
   }
 
   toggle () {
-    this.vuexify.commit(createMutationName('set', this.prop), !this.get())
+    this.vuezy.commit(createMutationName('set', this.prop), !this.get())
   }
 
   static defaultValue (d) {

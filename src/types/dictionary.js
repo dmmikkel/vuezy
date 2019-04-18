@@ -3,36 +3,36 @@ import {
 } from '../helpers'
 
 export default class Bool {
-  constructor(vuexify, prop) {
-    this.vuexify = vuexify
+  constructor(vuezy, prop) {
+    this.vuezy = vuezy
     this.prop = prop
   }
 
   get() {
-    return this.vuexify.get(this.prop)
+    return this.vuezy.get(this.prop)
   }
 
   set(v) {
     if (typeof v !== 'object') {
       throw new Error('Value must be of type object')
     }
-    this.vuexify.commit(createMutationName('set', this.prop), v)
+    this.vuezy.commit(createMutationName('set', this.prop), v)
   }
 
   getKey(key) {
-    return this.vuexify.get(this.prop)[key]
+    return this.vuezy.get(this.prop)[key]
   }
 
   add(key, value) {
-    this.vuexify.commit(createMutationName('addTo', this.prop), { key, value })
+    this.vuezy.commit(createMutationName('addTo', this.prop), { key, value })
   }
 
   setKeysToValue(keys, value) {
-    this.vuexify.commit(createMutationName('setKeysToValue', this.prop), { keys, value })
+    this.vuezy.commit(createMutationName('setKeysToValue', this.prop), { keys, value })
   }
 
   clear() {
-    this.vuexify.commit(createMutationName('clear', this.prop))
+    this.vuezy.commit(createMutationName('clear', this.prop))
   }
 
   containsKey(key) {
@@ -44,7 +44,7 @@ export default class Bool {
   }
 
   remove(key) {
-    this.vuexify.commit(createMutationName('remove', this.prop), key)
+    this.vuezy.commit(createMutationName('remove', this.prop), key)
   }
 
   static defaultValue(d) {
