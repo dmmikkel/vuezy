@@ -14,24 +14,24 @@ function mergeObjects (objs) {
   return result
 }
 
-var Bool = function Bool (vuexify, prop) {
-  this.vuexify = vuexify;
+var Bool = function Bool (vuezy, prop) {
+  this.vuezy = vuezy;
   this.prop = prop;
 };
 
 Bool.prototype.get = function get () {
-  return this.vuexify.get(this.prop)
+  return this.vuezy.get(this.prop)
 };
 
 Bool.prototype.set = function set (v) {
   if (typeof v !== 'boolean') {
     throw new Error('Value must be of type boolean')
   }
-  this.vuexify.commit(createMutationName('set', this.prop), v);
+  this.vuezy.commit(createMutationName('set', this.prop), v);
 };
 
 Bool.prototype.toggle = function toggle () {
-  this.vuexify.commit(createMutationName('set', this.prop), !this.get());
+  this.vuezy.commit(createMutationName('set', this.prop), !this.get());
 };
 
 Bool.defaultValue = function defaultValue (d) {
@@ -48,37 +48,43 @@ Bool.createMutations = function createMutations (m, p) {
   m[createMutationName('set', p)] = function (s, v) { return s[p] = v; };
 };
 
-var ObjectList = function ObjectList (vuexify, prop) {
-  this.vuexify = vuexify;
+var ObjectList = function ObjectList (vuezy, prop) {
+  this.vuezy = vuezy;
   this.prop = prop;
 };
 
 ObjectList.prototype.get = function get () {
-  return this.vuexify.get(this.prop)
+  return this.vuezy.get(this.prop)
 };
 
 ObjectList.prototype.set = function set (v) {
   if (!Array.isArray(v)) {
     throw new Error('Value must be an array')
   }
-  this.vuexify.commit(createMutationName('set', this.prop), v);
+  this.vuezy.commit(createMutationName('set', this.prop), v);
 };
   
 ObjectList.prototype.add = function add (item) {
-  this.vuexify.commit(createMutationName('addItemTo', this.prop), item);
+  this.vuezy.commit(createMutationName('addItemTo', this.prop), item);
 };
 
 ObjectList.prototype.replaceIndex = function replaceIndex (newItem, index) {
-  this.vuexify.commit(createMutationName('replaceIn', this.prop), { index: index, newItem: newItem });
+  this.vuezy.commit(createMutationName('replaceIn', this.prop), { index: index, newItem: newItem });
 };
 
 ObjectList.prototype.replaceWhere = function replaceWhere (newItem, predicate) {
   var list = this.get();
   var index = list.findIndex(predicate);
   if (index > -1) {
-    this.vuexify.commit(createMutationName('replaceIn', this.prop), { index: index, newItem: newItem });
+    this.vuezy.commit(createMutationName('replaceIn', this.prop), { index: index, newItem: newItem });
   }
 };
+
+ObjectList.prototype.deleteAllWhere = function deleteAllWhere (predicate) {
+  var list = this.get();
+  var newList = list.filter(function (item) { return !predicate(item); });
+  this.vuezy.commit(createMutationName('set', this.prop), newList);
+}; // TODO: Add to documentation and release
 
 ObjectList.prototype.replaceById = function replaceById (newItem, prop) {
     if ( prop === void 0 ) prop = 'id';
@@ -88,20 +94,20 @@ ObjectList.prototype.replaceById = function replaceById (newItem, prop) {
   if (index === -1) {
     throw new Error('Could not find item with matching id')
   }
-  this.vuexify.commit(createMutationName('replaceIn', this.prop), { index: index, newItem: newItem });
+  this.vuezy.commit(createMutationName('replaceIn', this.prop), { index: index, newItem: newItem });
 };
 
 ObjectList.prototype.getById = function getById (id, prop) {
     if ( prop === void 0 ) prop = 'id';
 
-  return this.vuexify.get(this.prop).find(function (x) { return x[prop] === id; })
+  return this.vuezy.get(this.prop).find(function (x) { return x[prop] === id; })
 };
 
 ObjectList.prototype.deleteById = function deleteById (id, prop) {
     if ( prop === void 0 ) prop = 'id';
 
-  var index = this.vuexify.get(this.prop).findIndex(function (x) { return x[prop] === id; });
-  this.vuexify.commit(createMutationName('deleteFrom', this.prop), index);
+  var index = this.vuezy.get(this.prop).findIndex(function (x) { return x[prop] === id; });
+  this.vuezy.commit(createMutationName('deleteFrom', this.prop), index);
 };
 
 ObjectList.prototype.addOrReplaceById = function addOrReplaceById (newItem, prop) {
@@ -113,9 +119,9 @@ ObjectList.prototype.addOrReplaceById = function addOrReplaceById (newItem, prop
   items.forEach(function (item) {
     var index = list.findIndex(function (x) { return x[prop] === item[prop]; });
     if (index > -1) {
-      this$1.vuexify.commit(createMutationName('replaceIn', this$1.prop), { index: index, newItem: item });
+      this$1.vuezy.commit(createMutationName('replaceIn', this$1.prop), { index: index, newItem: item });
     } else {
-      this$1.vuexify.commit(createMutationName('addItemTo', this$1.prop), item);
+      this$1.vuezy.commit(createMutationName('addItemTo', this$1.prop), item);
     }
   });
 };
@@ -144,36 +150,36 @@ ObjectList.createMutations = function createMutations (m, p) {
   };
 };
 
-var Bool$1 = function Bool(vuexify, prop) {
-  this.vuexify = vuexify;
+var Bool$1 = function Bool(vuezy, prop) {
+  this.vuezy = vuezy;
   this.prop = prop;
 };
 
 Bool$1.prototype.get = function get () {
-  return this.vuexify.get(this.prop)
+  return this.vuezy.get(this.prop)
 };
 
 Bool$1.prototype.set = function set (v) {
   if (typeof v !== 'object') {
     throw new Error('Value must be of type object')
   }
-  this.vuexify.commit(createMutationName('set', this.prop), v);
+  this.vuezy.commit(createMutationName('set', this.prop), v);
 };
 
 Bool$1.prototype.getKey = function getKey (key) {
-  return this.vuexify.get(this.prop)[key]
+  return this.vuezy.get(this.prop)[key]
 };
 
 Bool$1.prototype.add = function add (key, value) {
-  this.vuexify.commit(createMutationName('addTo', this.prop), { key: key, value: value });
+  this.vuezy.commit(createMutationName('addTo', this.prop), { key: key, value: value });
 };
 
 Bool$1.prototype.setKeysToValue = function setKeysToValue (keys, value) {
-  this.vuexify.commit(createMutationName('setKeysToValue', this.prop), { keys: keys, value: value });
+  this.vuezy.commit(createMutationName('setKeysToValue', this.prop), { keys: keys, value: value });
 };
 
 Bool$1.prototype.clear = function clear () {
-  this.vuexify.commit(createMutationName('clear', this.prop));
+  this.vuezy.commit(createMutationName('clear', this.prop));
 };
 
 Bool$1.prototype.containsKey = function containsKey (key) {
@@ -185,7 +191,7 @@ Bool$1.prototype.containsKey = function containsKey (key) {
 };
 
 Bool$1.prototype.remove = function remove (key) {
-  this.vuexify.commit(createMutationName('remove', this.prop), key);
+  this.vuezy.commit(createMutationName('remove', this.prop), key);
 };
 
 Bool$1.defaultValue = function defaultValue (d) {
