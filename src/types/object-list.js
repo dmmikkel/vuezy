@@ -52,6 +52,13 @@ export default class ObjectList {
     return this.vuezy.get(this.prop).find(x => x[prop] === id)
   }
 
+  delete (item) {
+    const index = this.vuezy.get(this.prop).indexOf(item)
+    if (index > -1) {
+      this.vuezy.commit(createMutationName('deleteFrom', this.prop), index)
+    }
+  }
+
   deleteById (id, prop = 'id') {
     const index = this.vuezy.get(this.prop).findIndex(x => x[prop] === id)
     this.vuezy.commit(createMutationName('deleteFrom', this.prop), index)

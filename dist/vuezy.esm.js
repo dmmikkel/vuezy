@@ -103,6 +103,13 @@ ObjectList.prototype.getById = function getById (id, prop) {
   return this.vuezy.get(this.prop).find(function (x) { return x[prop] === id; })
 };
 
+ObjectList.prototype.delete = function delete$1 (item) {
+  var index = this.vuezy.get(this.prop).indexOf(item);
+  if (index > -1) {
+    this.vuezy.commit(createMutationName('deleteFrom', this.prop), index);
+  }
+};
+
 ObjectList.prototype.deleteById = function deleteById (id, prop) {
     if ( prop === void 0 ) prop = 'id';
 

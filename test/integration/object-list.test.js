@@ -77,3 +77,35 @@ test('Delete items in ObjectList using deleteAllWhere', () => {
     }
   ])
 })
+
+test('Delete item in ObjectList', () => {
+  const { wrappers: { myProp }, store } = setUp({
+    state: {
+      myProp: 'ObjectList'
+    }
+  })
+  myProp.add({
+    id: 'a',
+    name: 'A'
+  }) 
+  myProp.add({
+    id: 'b',
+    name: 'B'
+  })
+  myProp.add({
+    id: 'c',
+    name: 'C'
+  })
+  const toDelete = myProp.get()[1]
+  myProp.delete(toDelete)
+  expect(store.state.myProp).toEqual([
+    {
+      id: 'a',
+      name: 'A'
+    },
+    {
+      id: 'c',
+      name: 'C'
+    },
+  ])
+})
